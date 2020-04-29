@@ -11,6 +11,7 @@ class App extends React.Component{
       monsters: [],
       searchField: ''
     };
+    //this.handleChange = this.handleChange.bind(this)
   }
 
   //component lifecycle method
@@ -18,6 +19,21 @@ class App extends React.Component{
     fetch("https://jsonplaceholder.typicode.com/users")
     .then(response => response.json())
     .then(users => this.setState({monsters: users }));
+  }
+
+  // handleChange(e) {
+  //   this.setState({searchField: e.target.value});
+  // }; 
+
+  /*
+  Note : good rule is use arrow functions on any class methods you define and aren't part of 
+  React (i.e. render(), componentDidMount()).
+  */
+
+  handleChange = (e) => {
+    //this way we do not need to bind(this context)
+    //error function auto binds to the context where it's defined
+    this.setState({searchField: e.target.value});
   }
 
   render(){
@@ -32,9 +48,10 @@ class App extends React.Component{
       );
     return (
       <div className="App">
+        <h1>Monster Rolodex</h1>
         <SearchBox
           placeholder = "search monsters"
-          handleChange = {e => this.setState({searchField: e.target.value})}
+          handleChange = {this.handleChange}
         />
         <CardList monsters = {filteredMonsters}/>
       </div>
